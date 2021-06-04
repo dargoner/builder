@@ -80,6 +80,7 @@ install_java() {
 
   _install_tools ${baseDir}
   install_pinpoit_agent ${baseDir}
+  install_skywalking_agent ${baseDir}
   install_jmx_exporter_agent ${baseDir}
   _create_profile_script ${baseDir}
   _create_export_script ${JAVA_HOME} "$(pwd)"
@@ -216,6 +217,7 @@ _create_profile_script() {
   local profileScript="${1}/.profile.d/jvmcommon.sh"
   local jdbcProfileScript="${1}/.profile.d/jdbc.sh"
   local pinpointProfileScript="${1}/.profile.d/pinpoint.sh"
+  local skywalkingProfileScript="${1}/.profile.d/skywalking.sh"
   local jmxexporterProfileScript="${1}/.profile.d/jmx-exporter.sh"
   local curDir=${JVM_COMMON_DIR:-$(cd $(dirname ${BASH_SOURCE[0]}) && cd .. && pwd )}
 
@@ -223,6 +225,7 @@ _create_profile_script() {
   cp "$curDir/opt/jvmcommon.sh" "$profileScript"
   cp "$curDir/opt/jdbc.sh" "$jdbcProfileScript"
   cp "$curDir/opt/pinpoint.sh" "$pinpointProfileScript"
+  cp "$curDir/opt/skywalking.sh" "$skywalkingProfileScript"
   cp "$curDir/opt/jmx-exporter.sh" "$jmxexporterProfileScript"
 }
 
@@ -290,6 +293,16 @@ install_pinpoit_agent() {
   mkdir "${install_dir}/.pinpoint"
   curl --retry 3 --silent --location "$PINPOINT_AGENT" | tar xzm -C "${install_dir}/.pinpoint"
   status "Install pinpoint agent success"
+}
+
+install_skywalking_agent() {
+  local install_dir=${1}
+  SW_AGENT_VERSION=${SW_AGENT_VERSION:-8.5.0}
+  DEFAULT_SW_AGENT="http://lang.goodrain.me/java/skywalking/skywalking-agent-${SKYWALKING_AGENT_VERSION}.tar.gz"
+  SW_AGENT=${SW_AGENT:-"${DEFAULT_SW_AGENT}"}
+  mkdir "${install_dir}/.skywalking"
+  curl --retry 3 --silent --location "$SW_AGENT" | tar xzm -C "${install_dir}/.skywalking"
+  status "Install skywalking agent success"
 }
 
 install_jmx_exporter_agent() {
