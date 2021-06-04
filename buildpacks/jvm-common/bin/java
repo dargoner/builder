@@ -298,10 +298,10 @@ install_pinpoit_agent() {
 install_skywalking_agent() {
   local install_dir=${1}
   SW_AGENT_VERSION=${SW_AGENT_VERSION:-8.5.0}
-  DEFAULT_SW_AGENT="http://lang.goodrain.me/java/skywalking/skywalking-agent-${SKYWALKING_AGENT_VERSION}.tar.gz"
+  DEFAULT_SW_AGENT="http://maven.rdc.finstone.com.cn/nexus/repository/maven-third/org/apache/skywalking/skywalking-agent/${SW_AGENT_VERSION}/skywalking-agent-${SW_AGENT_VERSION}.tar.gz"
   SW_AGENT=${SW_AGENT:-"${DEFAULT_SW_AGENT}"}
   mkdir "${install_dir}/.skywalking"
-  curl --retry 3 --silent --location "$SW_AGENT" | tar xzm -C "${install_dir}/.skywalking"
+  curl --retry 3 --silent --location "$SW_AGENT" | tar xzf -C "${install_dir}/.skywalking"
   status "Install skywalking agent success"
 }
 
