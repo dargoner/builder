@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [[ $ES_ENABLE_APM == "true" && ${ES_APM_TYPE+pinpoint} == "pinpoint" ]];then
+if [[ $ES_ENABLE_APM == "true" && ${ES_APM_TYPE:-pinpoint} == "pinpoint" ]];then
     ES_TRACE_AGENT_ID=${SERVICE_ID:0:10}
     PINPOINT_AGETN_VERSION=${PINPOINT_AGETN_VERSION:-2.0.3}
     PINPOINT_AGENT_PATH=/app/.pinpoint
