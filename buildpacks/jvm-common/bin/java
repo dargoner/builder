@@ -292,7 +292,7 @@ install_pinpoit_agent() {
   PINPOINT_AGENT=${PINPOINT_AGENT:-"${DEFAULT_PINPOINT_AGENT}"}
   mkdir "${install_dir}/.pinpoint"
   curl --retry 3 --silent --location "$PINPOINT_AGENT" | tar xzm -C "${install_dir}/.pinpoint"
-  status "Install pinpoint agent success"
+  status "Install pinpoint agent ${PINPOINT_AGENT_VERSION} success"
 }
 
 install_skywalking_agent() {
@@ -303,8 +303,9 @@ install_skywalking_agent() {
   mkdir "${install_dir}/.skywalking"
   curl --retry 3 --silent --location "$SW_AGENT" -o ${install_dir}/skywalking-agent-${SW_AGENT_VERSION}.tar.gz
   tar xzf ${install_dir}/skywalking-agent-${SW_AGENT_VERSION}.tar.gz -C "${install_dir}/.skywalking/"
+  mv ${install_dir}/.skywalking/skywalking-agent-${SW_AGENT_VERSION} ${install_dir}/.skywalking/skywalking-agent
   rm -rf ${install_dir}/skywalking-agent-${SW_AGENT_VERSION}.tar.gz
-  status "Install skywalking agent success"
+  status "Install skywalking agent ${SW_AGENT_VERSION} success"
 }
 
 install_jmx_exporter_agent() {
