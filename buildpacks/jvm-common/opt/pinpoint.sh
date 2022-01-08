@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-if [[ $ES_ENABLE_APM == "true" ]];then
+if [[ $ES_ENABLE_APM == "true" && ${ES_APM_TYPE:-pinpoint} == "pinpoint" ]];then
     ES_TRACE_AGENT_ID=${SERVICE_ID:0:10}
-    PINPOINT_AGETN_VERSION=2.0.3
+    PINPOINT_AGETN_VERSION=${PINPOINT_AGETN_VERSION:-2.0.3}
     PINPOINT_AGENT_PATH=/app/.pinpoint
     COLLECTOR_IP_HOST=${COLLECTOR_IP_HOST:-127.0.0.1}
     PROFILER_TRANSPORT_AGENT_COLLECTOR_PORT=${PROFILER_TRANSPORT_AGENT_COLLECTOR_PORT:-9991}
@@ -15,5 +15,5 @@ if [[ $ES_ENABLE_APM == "true" ]];then
     COLLECTOR_STAT_PORT=${COLLECTOR_STAT_PORT:-9995}
     COLLECTOR_SPAN_PORT=${COLLECTOR_SPAN_PORT:-9996}
     SPRING_PROFILES=${SPRING_PROFILES:-release}
-    export JAVA_OPTS="$JAVA_OPTS -javaagent:${PINPOINT_AGENT_PATH}/pinpoint-agent-${PINPOINT_AGETN_VERSION}/pinpoint-bootstrap-${PINPOINT_AGETN_VERSION}.jar -Dpinpoint.agentId=${HOSTNAME##*-} -Dpinpoint.applicationName=${ES_TRACE_APP_NAME:-${SERVICE_NAME:-$HOSTNAME}} -Dpinpoint.profiler.profiles.active=release"
+    export JAVA_OPTS="$JAVA_OPTS -javaagent:${PINPOINT_AGENT_PATH}/pinpoint-agent-${PINPOINT_AGETN_VERSION}/pinpoint-bootstrap-${PINPOINT_AGETN_VERSION}.jar -Dpinpoint.agentId=${HOSTNAME##*-} -Dpinpoint.applicationName=${ES_TRACE_APP_NAME:-${SERVICE_NAME:-$HOSTNAME}} -Dpinpoint.profiler.profiles.active=${SPRING_PROFILES:-release}"
 fi
